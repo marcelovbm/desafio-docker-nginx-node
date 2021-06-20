@@ -1,0 +1,24 @@
+version: '3'
+
+services: 
+    nodejs:
+        build:
+            context: ./node
+        image: mmagrinelli/nodejs:prod
+        container_name: nodejs
+        networks: 
+            - nginx-nodejs-net
+
+    nginx:
+        build:
+            context: ./nginx
+        image: mmagrinelli/nginx:prod
+        container_name: nginx
+        networks: 
+            - nginx-nodejs-net
+        ports: 
+            - "8080:80"
+
+networks: 
+    nginx-nodejs-net:
+        driver: bridge
