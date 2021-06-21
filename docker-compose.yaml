@@ -1,6 +1,7 @@
 version: '3'
 
 services: 
+
     nodejs:
         build:
             context: ./node
@@ -8,6 +9,9 @@ services:
         container_name: nodejs
         networks: 
             - nginx-nodejs-net
+        tty: true
+        depends_on: 
+            - db
 
     nginx:
         build:
@@ -18,6 +22,22 @@ services:
             - nginx-nodejs-net
         ports: 
             - "8080:80"
+        depends_on: 
+            - nodejs
+
+    db:
+        image: mysql:5.7
+        command: --innodb-use-native-aio=0
+        container_name: db
+        restart: always
+        tty: true
+        volumes: 
+            - ./mysql:/var/lib/mysql
+        environment: 
+            - MYSQL_DATABASE=nodedb
+            - MYSQL_ROOT_PASSWORD=root
+        networks: 
+            - nginx-nodejs-net
 
 networks: 
     nginx-nodejs-net:
