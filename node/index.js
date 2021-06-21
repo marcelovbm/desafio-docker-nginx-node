@@ -9,7 +9,7 @@ const connection = createConnection({
     database: 'nodedb'
 })
 
-connection.connect(function(err) {
+connection.connect(function (err) {
     if (err) {
         console.error('error connecting: ' + err.stack);
         return;
@@ -17,7 +17,14 @@ connection.connect(function(err) {
     console.log('connected as id ' + connection.threadId);
 });
 
-connection.query('INSERT INTO `people`(`name`) VALUES(?)', ['Magrinelli'], function (error, results, fields) {
+// Criando tabela que será utilizada.
+connection.query('CREATE TABLE people (id int not null auto_increment, name varchar(255), primary key(id))', function (error, results, fields) {
+    if (error) throw error
+    console.log(`Dados inseridos: ${JSON.stringify(results)} - ${JSON.stringify(fields)}`)
+})
+
+// Realizando o cadastro de um registro na tabela.
+connection.query('INSERT INTO `people`(`name`) VALUES(?)', ['Marcelo Magrinelli'], function (error, results, fields) {
     if (error) throw error
     console.log(`Dados inseridos: ${JSON.stringify(results)} - ${JSON.stringify(fields)}`)
 })

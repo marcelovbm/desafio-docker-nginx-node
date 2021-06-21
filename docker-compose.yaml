@@ -7,6 +7,8 @@ services:
             context: ./node
         image: mmagrinelli/nodejs:prod
         container_name: nodejs
+        entrypoint: dockerize -wait tcp://db:3306 -timeout 30s
+        command: ["node", "index.js"]
         networks: 
             - nginx-nodejs-net
         tty: true
@@ -31,8 +33,6 @@ services:
         container_name: db
         restart: always
         tty: true
-        volumes: 
-            - ./mysql:/var/lib/mysql
         environment: 
             - MYSQL_DATABASE=nodedb
             - MYSQL_ROOT_PASSWORD=root
