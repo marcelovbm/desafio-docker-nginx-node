@@ -20,7 +20,7 @@ connection.connect(function (err) {
 // Criando tabela que será utilizada.
 connection.query('CREATE TABLE people (id int not null auto_increment, name varchar(255), primary key(id))', function (error, results, fields) {
     if (error) throw error
-    console.log(`Dados inseridos: ${JSON.stringify(results)} - ${JSON.stringify(fields)}`)
+    console.log(`Tabela criada: ${JSON.stringify(results)} - ${JSON.stringify(fields)}`)
 })
 
 // Realizando o cadastro de um registro na tabela.
